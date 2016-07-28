@@ -9,21 +9,25 @@ using ProductsApp.Models;
 using Sunrise.Energy.Computing;
 
 namespace ProductsApp.Controllers
-{ 
+{
+    /// <summary>
+    /// Products controller
+    /// </summary>
     [RoutePrefix("api/wats")]
     public class ProductsController : ApiController
     {
         private CalculateWats kal;
-       // CultureInfo provider = new CultureInfo("en-US");
-
         Product ob;
-       // private DateTime date = new DateTime();
-
+       
+        /// <summary>
+        /// Get Product
+        /// </summary>
+        /// <remarks>Return object type of Product or exception</remarks>
         [Route("example1")]
         [HttpGet]
         public Product GetProduct(string date, int latidue)
         {
-            string format = "YYYY-MM-DDThh:mm";
+            string format = "yyyy-MM-ddTHH:mm:ss";
             DateTime dateTime = DateTime.ParseExact(date, format,new CultureInfo("en-US"));
             
             ob =new Product();
