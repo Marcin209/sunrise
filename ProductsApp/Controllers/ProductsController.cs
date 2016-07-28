@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using ProductsApp.Models;
 using Sunrise.Energy.Computing;
+
 
 namespace ProductsApp.Controllers
 {
@@ -18,36 +15,74 @@ namespace ProductsApp.Controllers
     {
         private CalculateWats kal;
         Product ob;
-       
+
         /// <summary>
         /// Get Product
         /// </summary>
+        /// <remarks>Metod get two parameters string and double</remarks>
         /// <remarks>Return object type of Product or exception</remarks>
         [Route("example1")]
         [HttpGet]
-        public Product GetProduct(string date, int latidue)
+        public Product GetProduct(string date, double latitude)
         {
             string format = "yyyy-MM-ddTHH:mm:ss";
             DateTime dateTime = DateTime.ParseExact(date, format,new CultureInfo("en-US"));
+            dateTime = dateTime.ToUniversalTime();
             
             ob =new Product();
             kal = new CalculateWats();
             kal.setData(dateTime);
-            kal.setLatidue(latidue);
+            kal.setLatidue(latitude);
+            ob.DateTime = dateTime;
+            ob.Latitude = latitude;
             ob.Wats = kal.getWats();
             return ob;
+        }
+        /// <summary>
+        /// Get Present Product
+        /// </summary>
+        /// <remarks>Metod get one parameter double</remarks>
+        /// <remarks>Return object type of Product or exception</remarks>
+        [Route("example1")]
+        [HttpGet]
+        public Product GetProduct(double latitude)
+        {
+            DateTime dateTime = DateTime.Now;
+            ob = new Product();
+            kal = new CalculateWats();
+            kal.setData(dateTime);
+            kal.setLatidue(latitude);
+            ob.DateTime = dateTime;
+            ob.Latitude = latitude;
+            ob.Wats = kal.getWats();
+            return ob;
+
+        }
+        /// <summary>
+        /// Get Product
+        /// </summary>
+        /// <remarks>Metod without parameters</remarks>
+        /// <remarks>Return object type of Product or exception</remarks>
+        [Route("example1")]
+        [HttpGet]
+        public Product GetProduct()
+        {
+            
+            double latitude = 15.0;
+            DateTime dateTime = DateTime.Now;
+            ob = new Product();
+            kal = new CalculateWats();
+            kal.setData(dateTime);
+            kal.setLatidue(latitude);
+            ob.DateTime = dateTime;
+            ob.Latitude = latitude;
+            ob.Wats = kal.getWats();
+            return ob;
+
         }
 
 
 
-        /*public Product getProduct(int year, int month,int day,int hour,int latidue)
-        {   kal = new CalculateWats();
-            kal.setData(new DateTime(year,month, day,hour, 0, 0));
-            kal.setLatidue(latidue);
-            ob = new Product();
-            ob.Wats = kal.getWats();
-            return ob;
-        }*/
     }
 
    
