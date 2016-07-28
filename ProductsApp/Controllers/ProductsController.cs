@@ -10,11 +10,11 @@ namespace ProductsApp.Controllers
     /// <summary>
     /// Products controller
     /// </summary>
-    [RoutePrefix("api/wats")]
+    [RoutePrefix("api/products")]
     public class ProductsController : ApiController
     {
-        private CalculateWats kal;
-        Product ob;
+        private CalculateWats _calculateWats;
+        Product _product;
 
         /// <summary>
         /// Get Product
@@ -29,14 +29,14 @@ namespace ProductsApp.Controllers
             DateTime dateTime = DateTime.ParseExact(date, format,new CultureInfo("en-US"));
             dateTime = dateTime.ToUniversalTime();
             
-            ob =new Product();
-            kal = new CalculateWats();
-            kal.setData(dateTime);
-            kal.setLatidue(latitude);
-            ob.DateTime = dateTime;
-            ob.Latitude = latitude;
-            ob.Wats = kal.getWats();
-            return ob;
+            _product =new Product();
+            _calculateWats = new CalculateWats();
+            _calculateWats.setData(dateTime);
+            _calculateWats.setLatidue(latitude);
+            _product.DateTime = dateTime;
+            _product.Latitude = latitude;
+            _product.Wats = _calculateWats.getWats();
+            return _product;
         }
         /// <summary>
         /// Get Present Product
@@ -48,14 +48,14 @@ namespace ProductsApp.Controllers
         public Product GetProduct(double latitude)
         {
             DateTime dateTime = DateTime.Now;
-            ob = new Product();
-            kal = new CalculateWats();
-            kal.setData(dateTime);
-            kal.setLatidue(latitude);
-            ob.DateTime = dateTime;
-            ob.Latitude = latitude;
-            ob.Wats = kal.getWats();
-            return ob;
+            _product = new Product();
+            _calculateWats = new CalculateWats();
+            _calculateWats.setData(dateTime);
+            _calculateWats.setLatidue(latitude);
+            _product.DateTime = dateTime;
+            _product.Latitude = latitude;
+            _product.Wats = _calculateWats.getWats();
+            return _product;
 
         }
         /// <summary>
@@ -70,14 +70,14 @@ namespace ProductsApp.Controllers
             
             double latitude = 15.0;
             DateTime dateTime = DateTime.Now;
-            ob = new Product();
-            kal = new CalculateWats();
-            kal.setData(dateTime);
-            kal.setLatidue(latitude);
-            ob.DateTime = dateTime;
-            ob.Latitude = latitude;
-            ob.Wats = kal.getWats();
-            return ob;
+            _product = new Product();
+            _calculateWats = new CalculateWats();
+            _calculateWats.setData(dateTime);
+            _calculateWats.setLatidue(latitude);
+            _product.DateTime = dateTime;
+            _product.Latitude = latitude;
+            _product.Wats = _calculateWats.getWats();
+            return _product;
 
         }
 

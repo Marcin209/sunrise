@@ -3,6 +3,9 @@ using System.Data;
 
 namespace Sunrise.Energy.Computing
 {
+    /// <summary>
+    /// Ca;culateWats
+    /// </summary>
     public class CalculateWats
     {
            
