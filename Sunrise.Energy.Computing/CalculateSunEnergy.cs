@@ -4,7 +4,7 @@ using System.Data;
 namespace Sunrise.Energy.Computing
 {
  
-    public class CalculateWats
+    public class CalculateSunEnergy
     {
            
             private double _latitude;
@@ -19,22 +19,22 @@ namespace Sunrise.Energy.Computing
             {
                 if (latitude > 90 || latitude < -90)
                 {
-                    throw new System.ArgumentException("Parametr cannot be mor than 90 or less than -90");
+                    throw new System.ArgumentException("Parametr cannot be more than 90  or less than -90 degrees");
                 }
                 _latitude = latitude;
             }
             
 
 
-            private double declination()
+            private double _Declination()
             {
                 double tmp = (2 * Math.PI) * ((284 + _dateTime.DayOfYear) / 365.25);
                 return 23.45 * (Math.PI / 180.0) * Math.Sin(tmp);
             }
           
-            private double AM(int hour, double lat)
+            private double _Am(int hour, double lat)
             {
-                double declinationRad = (Math.PI / 180) * declination();
+                double declinationRad = (Math.PI / 180) * _Declination();
                 double HRA = (Math.PI / 180) * (15 * (hour - 12));
                 double elevation = Math.Asin(Math.Sin(declinationRad) * Math.Sin(lat) + Math.Cos(declinationRad) * Math.Cos(lat) * Math.Cos(HRA));
                 double declination2 = (Math.PI / 180) * 90 - elevation;
@@ -46,7 +46,7 @@ namespace Sunrise.Energy.Computing
             public double getWats()
             {
             
-                double declinationRad = (Math.PI / 180) * declination();
+                double declinationRad = (Math.PI / 180) * _Declination();
                 _latitude = (Math.PI / 180) * _latitude;
                 double x = -(Math.Sin(_latitude) * Math.Sin(declinationRad));
                 x = x / (Math.Cos(_latitude) * Math.Cos(declinationRad));
@@ -55,7 +55,7 @@ namespace Sunrise.Energy.Computing
                 double sunsetHour = 12.0 + x * (180 / Math.PI);
                 if (_dateTime.Hour > sunriseHour && _dateTime.Hour< sunsetHour)
                 {
-                    double am = AM(_dateTime.Hour, _latitude);
+                    double am = _Am(_dateTime.Hour, _latitude);
                     double x1 = Math.Pow(0.7, am);
                     return 1.353 * Math.Pow(x1, 0.678);
                 }

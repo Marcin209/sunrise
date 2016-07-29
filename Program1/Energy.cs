@@ -12,7 +12,7 @@ namespace Program1
     {
         static void Main(string[] args)
         {
-            CalculateWats calculate = new CalculateWats();
+            CalculateSunEnergy calculate = new CalculateSunEnergy();
             double latidue;   //szerokosć geograficzna
             int year = 2016;
             int month = 7;

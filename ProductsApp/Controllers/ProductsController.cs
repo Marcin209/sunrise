@@ -15,7 +15,7 @@ namespace ProductsApp.Controllers
     [RoutePrefix("api/products")]
     public class ProductsController : ApiController
     {
-        private CalculateWats _calculateWats;
+        private CalculateSunEnergy _calculateSunEnergy;
         Product _product;
         
         /// <summary>
@@ -33,12 +33,12 @@ namespace ProductsApp.Controllers
                 dateTime = dateTime.ToUniversalTime();
                 string data = dateTime.Year.ToString() + "-" + dateTime.Month.ToString() + "-" + dateTime.Day.ToString() + " " + dateTime.Hour.ToString() + ":" + dateTime.Minute.ToString();
                 _product = new Product();
-                _calculateWats = new CalculateWats();
-                _calculateWats.setData(dateTime);
-                _calculateWats.setLatidue(latitude);
+                _calculateSunEnergy = new CalculateSunEnergy();
+                _calculateSunEnergy.setData(dateTime);
+                _calculateSunEnergy.setLatidue(latitude);
                 _product.DateTime = data;
                 _product.Latitude = latitude;
-                _product.Wats = Math.Round(_calculateWats.getWats(), 2);
+                _product.Wats = Math.Round(_calculateSunEnergy.getWats(), 2);
                 return _product;
 
             }
@@ -71,12 +71,12 @@ namespace ProductsApp.Controllers
                string data = dateTime.Year.ToString() + "-" + dateTime.Month.ToString() + "-" + dateTime.Day.ToString() +
                              " " + dateTime.Hour.ToString() + ":" + dateTime.Minute.ToString();
                _product = new Product();
-               _calculateWats = new CalculateWats();
-               _calculateWats.setData(dateTime);
-               _calculateWats.setLatidue(latitude);
+               _calculateSunEnergy = new CalculateSunEnergy();
+               _calculateSunEnergy.setData(dateTime);
+               _calculateSunEnergy.setLatidue(latitude);
                _product.DateTime = data;
                _product.Latitude = latitude;
-               _product.Wats = Math.Round(_calculateWats.getWats(), 2);
+               _product.Wats = Math.Round(_calculateSunEnergy.getWats(), 2);
                return _product;
 
            }
@@ -108,12 +108,12 @@ namespace ProductsApp.Controllers
                 DateTime dateTime = DateTime.Now;
                 string data = dateTime.Year.ToString() + "-" + dateTime.Month.ToString() + "-" + dateTime.Day.ToString() + " " + dateTime.Hour.ToString() + ":" + dateTime.Minute.ToString();
                 _product = new Product();
-                _calculateWats = new CalculateWats();
-                _calculateWats.setData(dateTime);
-                _calculateWats.setLatidue(latitude);
+                _calculateSunEnergy = new CalculateSunEnergy();
+                _calculateSunEnergy.setData(dateTime);
+                _calculateSunEnergy.setLatidue(latitude);
                 _product.DateTime = data;
                 _product.Latitude = latitude;
-                _product.Wats = Math.Round(_calculateWats.getWats(), 2);
+                _product.Wats = Math.Round(_calculateSunEnergy.getWats(), 2);
                 return _product;
 
             }

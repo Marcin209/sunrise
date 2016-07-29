@@ -13,7 +13,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void ShouldgetWats()
         {
-            CalculateWats sut = new CalculateWats();
+            CalculateSunEnergy sut = new CalculateSunEnergy();
             DateTime data = new DateTime(2016,7,25,8,0,0);
             int Latidue = 15;
             sut.setData(data);
@@ -24,7 +24,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void Should()
         {
-            CalculateWats sut = new CalculateWats();
+            CalculateSunEnergy sut = new CalculateSunEnergy();
             DateTime data = new DateTime(2016, 2, 29, 8, 0, 0);
             int Latidue = 15;
             sut.setData(data);
@@ -35,7 +35,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void Should2()
         {
-            CalculateWats sut = new CalculateWats();
+            CalculateSunEnergy sut = new CalculateSunEnergy();
             DateTime data = new DateTime(2016, 1,1, 8, 0, 0);
             int Latidue = 15;
             sut.setData(data);
@@ -47,7 +47,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void Should3()
         {
-            CalculateWats sut = new CalculateWats();
+            CalculateSunEnergy sut = new CalculateSunEnergy();
             DateTime data = new DateTime(2016, 12, 31, 8, 0, 0);
             int Latidue = 15;
             sut.setData(data);
