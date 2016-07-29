@@ -6,21 +6,21 @@ using Sunrise.Energy.Computing;
 
 
 namespace ProductsApp.Controllers
-{
+{/*
     /// <summary>
     /// Products controller
-    /// </summary>
+    /// </summary>*/
     [RoutePrefix("api/products")]
     public class ProductsController : ApiController
     {
         private CalculateWats _calculateWats;
         Product _product;
-
+        /*
         /// <summary>
         /// Get Product
         /// </summary>
         /// <remarks>Metod get two parameters string and double</remarks>
-        /// <remarks>Return object type of Product or exception</remarks>
+        /// <remarks>Return object type of Product or exception</remarks> */
         [Route("example1")]
         [HttpGet]
         public Product GetProduct(string date, double latitude)
@@ -38,12 +38,12 @@ namespace ProductsApp.Controllers
             _product.Wats = _calculateWats.getWats();
             return _product;
         }
-        /// <summary>
+       /* /// <summary>
         /// Get Present Product
         /// </summary>
         /// <remarks>Metod get one parameter double</remarks>
-        /// <remarks>Return object type of Product or exception</remarks>
-        [Route("example1")]
+        /// <remarks>Return object type of Product or exception</remarks>*/
+        [Route("example2")]
         [HttpGet]
         public Product GetProduct(double latitude)
         {
@@ -58,12 +58,12 @@ namespace ProductsApp.Controllers
             return _product;
 
         }
-        /// <summary>
+      /*  /// <summary>
         /// Get Product
         /// </summary>
         /// <remarks>Metod without parameters</remarks>
-        /// <remarks>Return object type of Product or exception</remarks>
-        [Route("example1")]
+        /// <remarks>Return object type of Product or exception</remarks> */
+        [Route("example3")]
         [HttpGet]
         public Product GetProduct()
         {
