@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ProductsApp.Models
 {
-    /*/// <summary>
+    /// <summary>
     /// Product class
-    /// </summary>*/
+    /// </summary>
     public class Product
-    {/*
+    {
         /// <summary>
         /// Product DateTime
-        /// </summary>*/
-        public DateTime DateTime { get; set;}
-       /* /// <summary>
+        /// </summary>
+        public string DateTime { get; set;}
+       /// <summary>
         /// Product Latitude
-        /// </summary>*/
+        /// </summary>
         public double Latitude { get; set; }
-       /* /// <summary>
+       /// <summary>
         /// Product Wats
-        /// </summary>*/
+        /// </summary>
         public double Wats { get; set;}
    
        
