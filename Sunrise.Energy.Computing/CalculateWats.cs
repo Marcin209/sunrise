@@ -3,9 +3,7 @@ using System.Data;
 
 namespace Sunrise.Energy.Computing
 {
-    /// <summary>
-    /// Ca;culateWats
-    /// </summary>
+ 
     public class CalculateWats
     {
            
@@ -19,6 +17,10 @@ namespace Sunrise.Energy.Computing
 
             public void setLatidue(double latitude)
             {
+                if (latitude > 90 || latitude < -90)
+                {
+                    throw new System.ArgumentException("Parametr cannot be mor than 90 or less than -90");
+                }
                 _latitude = latitude;
             }
             
