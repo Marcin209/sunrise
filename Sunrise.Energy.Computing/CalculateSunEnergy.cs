@@ -6,64 +6,103 @@ namespace Sunrise.Energy.Computing
  
     public class CalculateSunEnergy
     {
-           
-            private double _latitude;
-            DateTime _dateTime;
-       
-            public void setData(DateTime date)
-            {
-                _dateTime = date;
-            }
-
-            public void setLatidue(double latitude)
-            {
-                if (latitude > 90 || latitude < -90)
-                {
-                    throw new System.ArgumentException("Parametr cannot be more than 90  or less than -90 degrees");
-                }
-                _latitude = latitude;
-            }
-            
+        private double _latitude;
+        private DateTime _dateTime;
 
 
-            private double _Declination()
-            {
-                double tmp = (2 * Math.PI) * ((284 + _dateTime.DayOfYear) / 365.25);
-                return 23.45 * (Math.PI / 180.0) * Math.Sin(tmp);
-            }
-          
-            private double _Am(int hour, double lat)
-            {
-                double declinationRad = (Math.PI / 180) * _Declination();
-                double HRA = (Math.PI / 180) * (15 * (hour - 12));
-                double elevation = Math.Asin(Math.Sin(declinationRad) * Math.Sin(lat) + Math.Cos(declinationRad) * Math.Cos(lat) * Math.Cos(HRA));
-                double declination2 = (Math.PI / 180) * 90 - elevation;
+        public void setData(DateTime date)
+        {
+            _dateTime = date;
+        }
 
-                return 1 / (1E-4 + Math.Cos(declination2));
-            }
+        public void setLatidue(double latitude)
+        {
+            _latitude = latitude;
+        }
 
+        private double Declination(double c)
+        {
+            return 23.45 * Math.Sin(ToRad(360.0 / 365.0 * (c - 81)));
+        }
 
-            public double getWats()
-            {
-            
-                double declinationRad = (Math.PI / 180) * _Declination();
-                _latitude = (Math.PI / 180) * _latitude;
-                double x = -(Math.Sin(_latitude) * Math.Sin(declinationRad));
-                x = x / (Math.Cos(_latitude) * Math.Cos(declinationRad));
-                x = Math.Acos(x);
-                double sunriseHour = 12.0 - x * (180 / Math.PI);
-                double sunsetHour = 12.0 + x * (180 / Math.PI);
-                if (_dateTime.Hour > sunriseHour && _dateTime.Hour< sunsetHour)
-                {
-                    double am = _Am(_dateTime.Hour, _latitude);
-                    double x1 = Math.Pow(0.7, am);
-                    return 1.353 * Math.Pow(x1, 0.678);
-                }
-                 return 0.0; 
-            }
-
-
+        private double ToRad(double c)
+        {
+            return c * Math.PI / 180;
 
         }
-    
+
+        private double ToDeg(double c)
+        {
+            return 180 * c / Math.PI;
+        }
+
+        private double AM(double c, double e, double f)
+        {
+            double dec = ToRad(Declination(e));
+            double HRA = ToRad(15 * (c - 12));
+            double elevation = Math.Asin(Math.Sin(dec) * Math.Sin(f) + Math.Cos(dec) * Math.Cos(f) * Math.Cos(HRA));
+            double declination = ToRad(90) - elevation;
+            return 1 / (0.0001 + Math.Cos(declination));
+        }
+
+        private double sunrise(int jjday, double lat) // calculates the time of sunrise
+        {
+            double dec = ToRad(Declination(jjday));
+            lat = ToRad(lat);
+            double x = -(Math.Sin(lat) * Math.Sin(dec));
+            x = x / (Math.Cos(lat) * Math.Cos(dec));
+            if (x > 1.0)
+                x = 1.0;
+            if (x < -1.0)
+                x = -1.0;
+            double f = Math.Acos(x);
+            double H = ToDeg(f * 1 / 15.0);
+            return 12.0 - H;
+        }
+
+        private double sunset(int jday, double lat) //calculates the time of sunset
+        {
+            double dec = ToRad(Declination(jday));
+
+            lat = ToRad(lat);
+            double x = -(Math.Sin(lat) * Math.Sin(dec));
+            x = x / (Math.Cos(lat) * Math.Cos(dec));
+            if (x > 1.0)
+                x = 1.0;
+            if (x < -1.0)
+                x = -1.0;
+            double f = Math.Acos(x);
+            double H = ToDeg(f * 1 / 15.0);
+            return 12.0 + H;
+        }
+
+        public double getWats()
+        {
+            double dec = ToRad(Declination(_dateTime.DayOfYear));
+
+            double lat = ToRad(_latitude);
+            double x = -(Math.Sin(lat) * Math.Sin(dec));
+            x = x / (Math.Cos(lat) * Math.Cos(dec));
+            if (x > 1.0)
+                x = 1.0;
+            if (x < -1.0)
+                x = -1.0;
+            double f = Math.Acos(x);
+            double H = ToDeg(f * 1 / 15.0);
+
+            double Stot = 0.0;
+            double start = sunrise(_dateTime.DayOfYear, lat);
+            double stop = sunset(_dateTime.DayOfYear, lat);
+            if (_dateTime.Hour < start)
+                return 0.0;
+            if (_dateTime.Hour > stop)
+                return 0.0;
+            double am = AM(_dateTime.Hour, _dateTime.DayOfYear, lat);
+            double x1 = Math.Pow(0.7, am);
+            Stot = Stot + 1.353 * Math.Pow(x1, 0.678);
+            
+            return Math.Round(Stot, 5);
+        }
+    }
+
 }
